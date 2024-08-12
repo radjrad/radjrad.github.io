@@ -58,41 +58,6 @@
         a:hover {
             text-decoration: underline;
         }
-        .carousel-container {
-            position: relative;
-            max-width: 100%;
-            margin: auto;
-            overflow: hidden;
-        }
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .carousel blockquote {
-            min-width: 100%;
-            box-sizing: border-box;
-        }
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            padding: 16px;
-            margin-top: -22px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-        .prev:hover, .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
         footer {
             background-color: #2e4c2c; /* Dark Green */
             color: white;
@@ -127,33 +92,27 @@
 
     <section class="portfolio">
         <h2>Photography Portfolio</h2>
-        <!-- Carousel Container -->
-        <div class="carousel-container">
-            <div class="carousel">
-                <!-- Instagram Embed 1 -->
-                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                    <div style="padding:16px;">
-                        <a href="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-                    </div>
-                </blockquote>
 
-                <!-- Instagram Embed 2 -->
-                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                    <div style="padding:16px;">
-                        <a href="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-                    </div>
-                </blockquote>
-
-                <!-- Instagram Embed 3 -->
-                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                    <div style="padding:16px;">
-                        <a href="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-                    </div>
-                </blockquote>
+        <!-- Instagram Embed 1 -->
+        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+            <div style="padding:16px;">
+                <a href="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
             </div>
-            <a class="prev" onclick="moveCarousel(-1)">&#10094;</a>
-            <a class="next" onclick="moveCarousel(1)">&#10095;</a>
-        </div>
+        </blockquote>
+
+        <!-- Instagram Embed 2 -->
+        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+            <div style="padding:16px;">
+                <a href="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
+            </div>
+        </blockquote>
+
+        <!-- Instagram Embed 3 -->
+        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+            <div style="padding:16px;">
+                <a href="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
+            </div>
+        </blockquote>
 
         <script async src="//www.instagram.com/embed.js"></script>
 
@@ -168,32 +127,6 @@
     <footer>
         <p>&copy; 2024 Jared B. Fries. All Rights Reserved.</p>
     </footer>
-
-    <script>
-        let currentIndex = 0;
-
-        function moveCarousel(n) {
-            const carousel =Here's the continuation and completion of the full code with the floating header:
-
-```html
-    <script>
-        let currentIndex = 0;
-
-        function moveCarousel(n) {
-            const carousel = document.querySelector('.carousel');
-            const items = document.querySelectorAll('.carousel blockquote');
-            currentIndex += n;
-
-            if (currentIndex >= items.length) {
-                currentIndex = 0;
-            } else if (currentIndex < 0) {
-                currentIndex = items.length - 1;
-            }
-
-            const offset = -currentIndex * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
-        }
-    </script>
 
 </body>
 </html>
