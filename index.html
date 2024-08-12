@@ -13,7 +13,7 @@
             padding: 0;
             line-height: 1.6;
             font-size: 20px; /* Body text size */
-            padding-top: 200px; /* Further increased space for floating header */
+            padding-top: 200px; /* Increased space for floating header */
         }
         header {
             background-color: #2e4c2c; /* Dark Green */
@@ -68,6 +68,7 @@
         .gallery-container blockquote {
             flex: 0 0 auto;
             margin: 0 10px;
+            max-width: 300px; /* Limit width for smaller screens */
         }
         footer {
             background-color: #2e4c2c; /* Dark Green */
@@ -78,6 +79,45 @@
             position: relative;
             bottom: 0;
             width: 100%;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 250px; /* Extra space for mobile */
+                font-size: 18px; /* Slightly smaller text on mobile */
+            }
+            header h1 {
+                font-size: 48px; /* Smaller title on mobile */
+            }
+            header p {
+                font-size: 28px; /* Smaller subtext on mobile */
+            }
+            h2 {
+                font-size: 28px; /* Smaller headers on mobile */
+            }
+            .gallery-container {
+                flex-direction: column; /* Stack images vertically on mobile */
+            }
+            .portfolio, .contact {
+                padding: 15px; /* Adjust padding for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 270px; /* Even more space on smaller screens */
+                font-size: 16px; /* Further reduce text size */
+            }
+            header h1 {
+                font-size: 40px; /* Further reduce title size */
+            }
+            header p {
+                font-size: 24px; /* Further reduce subtext size */
+            }
+            h2 {
+                font-size: 24px; /* Smaller headers on mobile */
+            }
         }
     </style>
 </head>
@@ -127,6 +167,9 @@
 
         <script async src="//www.instagram.com/embed.js"></script>
 
+       Here is the continuation of the HTML code with the full mobile-friendly and responsive design:
+
+```html
         <p>For more, visit my Instagram <a href="https://www.instagram.com/jaredbfries/" target="_blank">@jaredbfries</a>.</p>
     </section>
 
