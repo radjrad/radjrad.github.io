@@ -13,7 +13,7 @@
             padding: 0;
             line-height: 1.6;
             font-size: 20px; /* Body text size */
-            padding-top: 100px; /* Space for floating header */
+            padding-top: 120px; /* Adjusted space for floating header */
         }
         header {
             background-color: #2e4c2c; /* Dark Green */
@@ -58,6 +58,17 @@
         a:hover {
             text-decoration: underline;
         }
+        .gallery-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 10px;
+        }
+        .gallery-container blockquote {
+            flex: 0 0 auto;
+            margin: 0 10px;
+        }
         footer {
             background-color: #2e4c2c; /* Dark Green */
             color: white;
@@ -79,10 +90,10 @@
 
     <section>
         <h2>About Me</h2>
-        <p>Hello! I'm Jared B. Fries, AKA "JBF!"</P>
-            <p> I'm a third-generation educator who is passionate about building an education system that drives towards excellence and equity.</P>
-           <p> I have extensive experience in driving strategic growth and impact across the education sector.</P>
-            <p>When I'm not working, you can find me playing in the park with my dog, attending live music concerts, or capturing moments through photography.</p>
+        <p>Hello! I'm Jared B. Fries, AKA "JBF!"</p>
+        <p>I'm a third-generation educator who is passionate about building an education system that drives towards excellence and equity.</p>
+        <p>I have extensive experience in driving strategic growth and impact across the education sector.</p>
+        <p>When I'm not working, you can find me playing in the park with my dog, attending live music concerts, or capturing moments through photography.</p>
     </section>
 
     <section class="portfolio">
@@ -93,26 +104,17 @@
     <section class="portfolio">
         <h2>Photography Portfolio</h2>
 
-        <!-- Instagram Embed 1 -->
-        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-            <div style="padding:16px;">
-                <a href="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-            </div>
-        </blockquote>
+        <!-- Gallery Container for Instagram Embeds -->
+        <div class="gallery-container">
+            <!-- Instagram Embed 1 -->
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); max-width:326px; padding:0; width:99.375%;"></blockquote>
 
-        <!-- Instagram Embed 2 -->
-        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-            <div style="padding:16px;">
-                <a href="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-            </div>
-        </blockquote>
+            <!-- Instagram Embed 2 -->
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); max-width:326px; padding:0; width:99.375%;"></blockquote>
 
-        <!-- Instagram Embed 3 -->
-        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-            <div style="padding:16px;">
-                <a href="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"></a>
-            </div>
-        </blockquote>
+            <!-- Instagram Embed 3 -->
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); max-width:326px; padding:0; width:99.375%;"></blockquote>
+        </div>
 
         <script async src="//www.instagram.com/embed.js"></script>
 
