@@ -40,14 +40,18 @@
             color: #004d40; /* Even darker seafoam */
         }
         section {
-            padding: 15px 20px;
-            margin: 20px;
+            padding: 50px 20px; /* Increased padding for more white space */
+            margin: 40px 0; /* More white space between sections */
             background-color: #ffffff; /* White background for sections */
             border-radius: 10px;
             box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Start hidden */
+            transform: translateY(30px); /* Start slightly offset */
+            transition: opacity 0.6s ease, transform 0.6s ease; /* Fade-in and slide-up */
         }
-        .portfolio, .contact {
-            margin-bottom: 20px;
+        section.visible {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Reset position */
         }
         h2 {
             color: #4dd0e1; /* Light blue */
@@ -70,16 +74,36 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
-        .gallery-container blockquote {
-            max-width: 100%;
-            margin: 0;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        .gallery-container img {
+            width: 100%;
             border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .gallery-container blockquote:hover {
+        .gallery-container img:hover {
             transform: translateY(-5px);
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+        .lightbox:target {
+            display: flex;
         }
         footer {
             background-color: #80cbc4; /* Seafoam green */
@@ -155,23 +179,274 @@
 
         <!-- Gallery Container for Instagram Embeds -->
         <div class="gallery-container">
-            <!-- Instagram Embed 1 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/XrZIIyQobC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+            <!-- Image 1 -->
+            <a href="#lightbox-1">
+                <img src="https://www.instagram.com/p/XrZIIyQobC/media/?size=l" alt="Instagram Image 1">
+            </a>
+            <div id="lightbox-1" class="lightbox">
+                <img src="https://www.instagram.com/p/XrZIIyQobC/media/?size=l" alt="Instagram Image 1">
+            </div>
 
-            <!-- Instagram Embed 2 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/kmQxDPwode/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+            <!-- Image 2 -->
+            <a href="#lightbox-2">
+                <img src="https://www.instagram.com/p/kmQxDPwode/media/?size=l" alt="Instagram Image 2">
+            </a>
+            <div id="lightbox-2" class="lightbox">
+                <img src="https://www.instagram.com/p/kmQxDPwode/media/?size=l" alt="Instagram Image 2">
+            </div>
 
-            <!-- Instagram Embed 3 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/txfWbcQoRC/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+            <!-- Image 3 -->
+            <a href="#lightbox-3">
+                <img src="https://www.instagram.com/p/txfWbcQoRC/media/?size=l" alt="Instagram Image 3">
+            </a>
+            <div id="lightbox-3" class="lightbox">
+                <img src="https://www.instagram.com/p/txfWbcQoRC/media/?size=l" alt="Instagram Image 3">
+            </div>
 
-            <!-- Instagram Embed 4 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/m7wzgTQoa-/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+            <!-- Image 4 -->
+            <a href="#lightbox-4">
+                <img src="https://www.instagram.com/p/m7wzgTQoa-/media/?size=l" alt="Instagram Image 4">
+            </a>
+            <div id="lightbox-4" class="lightbox">
+                <img src="https://www.instagram.com/p/m7wzgTQoa-/media/?size=l" alt="Instagram Image 4">
+            </div>
 
-            <!-- Instagram Embed 5 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/c_vKqEwoU4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+            <!-- Image 5 -->
+            <a href="#lightbox-5">
+                <img src="https://www.instagram.com/p/c_vKqEwoU4/media/?size=l" alt="Instagram Image 5">
+            </a>
+            <div id="lightbox-5" class="lightbox">
+                <img src="https://www.instagram.com/p/c_vKqEwoU4/media/?size=l" altHere's the complete updated code with the requested animated scroll transitions and interactive image gallery with a lightbox effect:
 
-            <!-- Instagram Embed 6 -->
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/X5CTfWwob-/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:10px; box-shadow:0px 2px 8px rgba(0,0,0,0.1); max-width:100%; padding:0;"></blockquote>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jared B. Fries - Personal Webpage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f0f8ff; /* Light blue */
+            color: #2e4c2c; /* Dark Gray */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            font-size: 18px; /* Body text size */
+            padding-top: 220px; /* Extra space for floating header */
+        }
+        header {
+            background-color: #80cbc4; /* Seafoam green */
+            color: #ffffff; /* White */
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        header h1 {
+            font-size: 48px; /* Title size */
+            margin: 0;
+            color: #004d40; /* Darker seafoam */
+        }
+        header p {
+            font-size: 22px; /* Header subtext size */
+            margin: 5px 0 0 0;
+            color: #004d40; /* Even darker seafoam */
+        }
+        section {
+            padding: 50px 20px; /* Increased padding for more white space */
+            margin: 40px 0; /* More white space between sections */
+            background-color: #ffffff; /* White background for sections */
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* Start hidden */
+            transform: translateY(30px); /* Start slightly offset */
+            transition: opacity 0.6s ease, transform 0.6s ease; /* Fade-in and slide-up */
+        }
+        section.visible {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Reset position */
+        }
+        h2 {
+            color: #4dd0e1; /* Light blue */
+            font-size: 26px; /* Header size */
+            margin-bottom: 10px;
+            border-bottom: 2px solid #b2ebf2; /* Light border for modern look */
+            padding-bottom: 8px;
+        }
+        a {
+            color: #00796b; /* Darker seafoam */
+            text-decoration: none;
+            font-size: 18px; /* Adjusted to match body text */
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #004d40; /* Darker hover color */
+        }
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .gallery-container img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-container img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+        .lightbox:target {
+            display: flex;
+        }
+        footer {
+            background-color: #80cbc4; /* Seafoam green */
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 18px; /* Adjusted to match body text */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 240px; /* Adjust space for smaller screens */
+            }
+            header h1 {
+                font-size: 40px; /* Smaller title on tablets */
+            }
+            header p {
+                font-size: 20px; /* Smaller subtext on tablets */
+            }
+            h2 {
+                font-size: 24px; /* Smaller headers on tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 260px; /* Extra space on smaller screens */
+            }
+            header h1 {
+                font-size: 36px; /* Further reduce title size */
+            }
+            header p {
+                font-size: 18px; /* Further reduce subtext size */
+            }
+            h2 {
+                font-size: 20px; /* Smaller headers on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Jared B. Fries</h1>
+        <p>Educator | Earth Explorer</p>
+    </header>
+
+    <section>
+        <h2>About Me</h2>
+        <p>Hello! I'm Jared B. Fries, AKA "JBF!"</p>
+        <p>I'm a third-generation educator who is passionate about building an education system that drives towards excellence and equity.</p>
+        <p>I have extensive experience in driving strategic growth and impact across the education sector.</p>
+        <p>When I'm not working, you can find me playing in the park with my dog, attending live music concerts, or capturing moments through photography.</p>
+    </section>
+
+    <section class="portfolio">
+        <h2>Education Leadership Portfolio</h2>
+        <p>Explore my work in education leadership. Download my portfolio <a href="path/to/your/portfolio.pdf" download>here</a>.</p>
+    </section>
+
+    <section class="portfolio">
+        <h2>Photography Portfolio</h2>
+
+        <!-- Gallery Container for Instagram Embeds -->
+        <div class="gallery-container">
+            <!-- Image 1 -->
+            <a href="#lightbox-1">
+                <img src="https://www.instagram.com/p/XrZIIyQobC/media/?size=l" alt="Instagram Image 1">
+            </a>
+            <div id="lightbox-1" class="lightbox">
+                <img src="https://www.instagram.com/p/XrZIIyQobC/media/?size=l" alt="Instagram Image 1">
+            </div>
+
+            <!-- Image 2 -->
+            <a href="#lightbox-2">
+                <img src="https://www.instagram.com/p/kmQxDPwode/media/?size=l" alt="Instagram Image 2">
+            </a>
+            <div id="lightbox-2" class="lightbox">
+                <img src="https://www.instagram.com/p/kmQxDPwode/media/?size=l" alt="Instagram Image 2">
+            </div>
+
+            <!-- Image 3 -->
+            <a href="#lightbox-3">
+                <img src="https://www.instagram.com/p/txfWbcQoRC/media/?size=l" alt="Instagram Image 3">
+            </a>
+            <div id="lightbox-3" class="lightbox">
+                <img src="https://www.instagram.com/p/txfWbcQoRC/media/?size=l" alt="Instagram Image 3">
+            </div>
+
+            <!-- Image 4 -->
+            <a href="#lightbox-4">
+                <img src="https://www.instagram.com/p/m7wzgTQoa-/media/?size=l" alt="Instagram Image 4">
+            </a>
+            <div id="lightbox-4" class="lightbox">
+                <img src="https://www.instagram.com/p/m7wzgTQoa-/media/?size=l" alt="Instagram Image 4">
+            </div>
+
+            <!-- Image 5 -->
+            <a href="#lightbox-5">
+                <img src="https://www.instagram.com/p/c_vKqEwoU4/media/?size=l" alt="Instagram Image 5">
+            </a>
+            <div id="lightbox-5" class="lightbox">
+                              <img src="https://www.instagram.com/p/c_vKqEwoU4/media/?size=l" alt="Instagram Image 5">
+            </div>
+
+            <!-- Image 6 -->
+            <a href="#lightbox-6">
+                <img src="https://www.instagram.com/p/X5CTfWwob-/media/?size=l" alt="Instagram Image 6">
+            </a>
+            <div id="lightbox-6" class="lightbox">
+                <img src="https://www.instagram.com/p/X5CTfWwob-/media/?size=l" alt="Instagram Image 6">
+            </div>
         </div>
 
         <script async src="//www.instagram.com/embed.js"></script>
@@ -187,6 +462,23 @@
     <footer>
         <p>&copy; 2024 Jared B. Fries. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // Intersection Observer for fade-in animation
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 
 </body>
 </html>
