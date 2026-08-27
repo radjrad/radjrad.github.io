@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Afi's Calm &amp; Share Academy</title>
+<meta name="description" content="Daily resource-guarding training program and progress tracker for Afi the cavapoo.">
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --series-1: #2a78d6;
+    --series-1-soft: rgba(42,120,214,0.12);
+    --good: #0ca30c;
+    --good-text: #006300;
+    --warning: #fab219;
+    --serious: #ec835a;
+    --critical: #d03b3b;
+    --accent: #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --series-1: #3987e5;
+      --series-1-soft: rgba(57,135,229,0.18);
+      --good: #0ca30c;
+      --good-text: #0ca30c;
+      --accent: #3987e5;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+  header.app {
+    padding: 20px 16px 12px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header.app h1 { font-size: 1.35rem; letter-spacing: -0.01em; }
+  header.app p { color: var(--text-secondary); font-size: 0.9rem; }
+  main { max-width: 720px; margin: 0 auto; padding: 0 16px 24px; }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .card h2 { font-size: 1.05rem; margin-bottom: 8px; }
+  .card h3 { font-size: 0.95rem; margin: 10px 0 4px; }
+  .muted { color: var(--text-secondary); font-size: 0.9rem; }
+  .tiny { color: var(--text-muted); font-size: 0.8rem; }
+  button {
+    font: inherit;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-primary);
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+  button.big { width: 100%; padding: 14px; font-size: 1rem; margin-top: 10px; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .spread { justify-content: space-between; }
+  nav.tabs {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex;
+    background: var(--surface-1);
+    border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom);
+    z-index: 10;
+  }
+  nav.tabs button {
+    flex: 1; border: none; border-radius: 0; background: none;
+    padding: 8px 2px 10px; font-size: 0.72rem; color: var(--text-muted);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  nav.tabs button .ico { font-size: 1.25rem; line-height: 1; }
+  nav.tabs button.active { color: var(--accent); font-weight: 600; }
+  section.view { display: none; }
+  section.view.active { display: block; }
+  .pill {
+    display: inline-block; padding: 2px 10px; border-radius: 999px;
+    font-size: 0.75rem; font-weight: 600;
+    background: var(--series-1-soft); color: var(--accent);
+  }
+  .pill.gray { background: none; border: 1px solid var(--border); color: var(--text-secondary); }
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--grid);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist input[type=checkbox] { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--accent); }
+  .steps { padding-left: 20px; }
+  .steps li { margin-bottom: 8px; }
+  .drill-card h2 { display: flex; align-items: center; gap: 8px; }
+  .lvlpips { display: flex; gap: 5px; margin: 6px 0; }
+  .lvlpips span {
+    width: 26px; height: 8px; border-radius: 4px; background: var(--grid);
+  }
+  .lvlpips span.on { background: var(--series-1); }
+  label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin: 10px 0 4px; }
+  select, input[type=text], input[type=number], input[type=date], textarea {
+    font: inherit; width: 100%; padding: 10px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--page); color: var(--text-primary);
+  }
+  textarea { min-height: 64px; resize: vertical; }
+  .ratings { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .ratings button {
+    text-align: left; display: flex; gap: 10px; align-items: center; padding: 10px 12px;
+  }
+  .ratings button .em { font-size: 1.3rem; }
+  .ratings button.sel { border-color: var(--accent); background: var(--series-1-soft); }
+  .ratings .sub { display: block; font-size: 0.78rem; color: var(--text-secondary); }
+  .timer {
+    font-size: 2.6rem; font-weight: 700; text-align: center;
+    font-variant-numeric: tabular-nums; margin: 8px 0;
+  }
+  .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (min-width: 560px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  .tile {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px;
+  }
+  .tile .val { font-size: 1.7rem; font-weight: 700; line-height: 1.15; }
+  .tile .lbl { font-size: 0.75rem; color: var(--text-secondary); }
+  .logitem { padding: 10px 0; border-bottom: 1px solid var(--grid); }
+  .logitem:last-child { border-bottom: none; }
+  .logitem .row { justify-content: space-between; }
+  .logitem .del { border: none; background: none; color: var(--text-muted); padding: 2px 6px; font-size: 0.8rem; }
+  .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.8rem; font-weight: 600; }
+  .badge .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .chartwrap { position: relative; }
+  .chartwrap svg { display: block; width: 100%; height: auto; }
+  .tooltip {
+    position: absolute; pointer-events: none; display: none;
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 9px; font-size: 0.78rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12); white-space: nowrap; z-index: 5;
+  }
+  details.datatable summary { cursor: pointer; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+  details.datatable table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 6px; }
+  details.datatable th, details.datatable td {
+    text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--grid);
+    font-variant-numeric: tabular-nums;
+  }
+  .notice {
+    border-left: 4px solid var(--warning); padding: 10px 12px; border-radius: 8px;
+    background: var(--surface-1); border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    font-size: 0.87rem; margin-bottom: 14px;
+  }
+  .success-flash {
+    border-left: 4px solid var(--good);
+  }
+  a { color: var(--accent); }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <h1>🐶 Afi's Calm &amp; Share Academy</h1>
+  <p>Daily resource-guarding &amp; calm-around-dogs program · 3-year-old cavapoo</p>
+</header>
+
+<main>
+
+<!-- ==================== TODAY ==================== -->
+<section class="view active" id="view-today">
+  <div class="card">
+    <div class="row spread">
+      <h2 id="today-title">Today's session</h2>
+      <span class="pill" id="today-streak">🔥 0-day streak</span>
+    </div>
+    <p class="muted" id="today-sub"></p>
+    <ul class="checklist" id="today-plan"></ul>
+    <button class="primary big" id="today-start">▶ Start today's main drill</button>
+  </div>
+
+  <div class="card">
+    <h2>Ground rules (every day)</h2>
+    <ul class="steps muted">
+      <li><strong>Never punish a growl.</strong> A growl is information. Punishing it teaches Afi to skip the warning and go straight to snapping.</li>
+      <li><strong>Trade, don't take.</strong> Approaching Afi's stuff should always predict something better arriving, not something being lost.</li>
+      <li><strong>Manage first, train second.</strong> At the park, until he's ready: keep sessions short, pick up the ball/bowl before strange dogs arrive, and add distance the moment he stiffens.</li>
+      <li><strong>Stay under threshold.</strong> If he can't eat a treat or look back at you, he's too close to the trigger — move away and try again farther.</li>
+      <li><strong>End on a win.</strong> 10–15 focused minutes beats an hour of trigger-stacking.</li>
+    </ul>
+  </div>
+
+  <div class="notice">
+    ⚠️ Afi has already gone after another dog near his bowl. Do the dog-near-resource levels (L4–L5) only with a calm, known dog, both dogs leashed, and ideally with a certified force-free trainer (CPDT-KA / IAABC) coaching the first sessions. If there's ever a bite that breaks skin, pause the program and bring in a professional.
+  </div>
+</section>
+
+<!-- ==================== DRILLS ==================== -->
+<section class="view" id="view-drills">
+  <div id="drill-list"></div>
+</section>
+
+<!-- ==================== PRACTICE ==================== -->
+<section class="view" id="view-practice">
+  <div class="card" id="practice-picker">
+    <h2>Practice a skill</h2>
+    <label for="p-drill">Drill</label>
+    <select id="p-drill"></select>
+    <div id="p-level-info"></div>
+    <button class="primary big" id="p-begin">Begin guided session</button>
+  </div>
+
+  <div class="card hidden" id="practice-session">
+    <div class="row spread">
+      <h2 id="ps-title"></h2>
+      <span class="pill" id="ps-level"></span>
+    </div>
+    <p class="muted" id="ps-goal"></p>
+    <div class="timer" id="ps-timer">00:00</div>
+    <div class="row" style="justify-content:center">
+      <button id="ps-timer-toggle">▶ Start timer</button>
+      <button id="ps-timer-reset">↺ Reset</button>
+    </div>
+    <h3>Steps</h3>
+    <ol class="steps" id="ps-steps"></ol>
+    <p class="tiny" id="ps-passrule"></p>
+    <button class="primary big" id="ps-finish">✔ Finish &amp; log this session</button>
+    <button class="big" id="ps-cancel">Cancel session</button>
+  </div>
+
+  <div class="card hidden" id="practice-log">
+    <h2>Log the session</h2>
+    <p class="muted" id="pl-what"></p>
+    <label>Where did you train?</label>
+    <div class="row" id="pl-locs"></div>
+    <label>How did Afi do? (worst moment of the session)</label>
+    <div class="ratings" id="pl-ratings"></div>
+    <label for="pl-distance">Distance to nearest trigger dog (if any)</label>
+    <select id="pl-distance">
+      <option value="">No dogs around</option>
+      <option>50m+ / out of sight</option>
+      <option>20–50m</option>
+      <option>10–20m</option>
+      <option>3–10m</option>
+      <option>Under 3m</option>
+    </select>
+    <label for="pl-notes">Notes (optional)</label>
+    <textarea id="pl-notes" placeholder="e.g. Dropped the ball 8/10 times, stiffened when the labrador ran past"></textarea>
+    <button class="primary big" id="pl-save">Save session</button>
+  </div>
+
+  <div class="card success-flash hidden" id="practice-done">
+    <h2>✅ Logged!</h2>
+    <p class="muted" id="pd-msg"></p>
+    <div id="pd-levelup"></div>
+    <button class="big" id="pd-again">Practice another drill</button>
+  </div>
+</section>
+
+<!-- ==================== LOG ==================== -->
+<section class="view" id="view-log">
+  <div class="card">
+    <div class="row spread">
+      <h2>Quick incident log</h2>
+    </div>
+    <p class="muted">Guarding moment outside a training session? Log it — the pattern matters more than the single event.</p>
+    <label for="i-type">What happened</label>
+    <select id="i-type">
+      <option value="ball">Guarded ball / toy</option>
+      <option value="water">Guarded water bowl</option>
+      <option value="food">Guarded food / chew</option>
+      <option value="stare">Fixated / stiffened at a dog (look only)</option>
+      <option value="bark">Barked / lunged at a dog</option>
+      <option value="sound">Went wild at dog sounds at home</option>
+      <option value="fight">Snap / went after a dog</option>
+    </select>
+    <label>Severity</label>
+    <div class="ratings" id="i-ratings"></div>
+    <label for="i-where">Where</label>
+    <select id="i-where">
+      <option>Home</option><option>Neighborhood walk</option><option>Park</option>
+      <option>Beach</option><option>With walker</option><option>Other</option>
+    </select>
+    <label for="i-notes">Notes (optional)</label>
+    <textarea id="i-notes" placeholder="e.g. Small dog approached his water bowl after fetch"></textarea>
+    <button class="primary big" id="i-save">Save incident</button>
+  </div>
+
+  <div class="card">
+    <div class="row spread">
+      <h2>History</h2>
+      <div class="row">
+        <button id="btn-export">⬇ Export</button>
+        <button id="btn-import">⬆ Import</button>
+        <input type="file" id="import-file" accept="application/json" class="hidden">
+      </div>
+    </div>
+    <div id="history"></div>
+  </div>
+</section>
+
+<!-- ==================== PROGRESS ==================== -->
+<section class="view" id="view-progress">
+  <div class="tiles" id="prog-tiles"></div>
+
+  <div class="card">
+    <h2>Calm score — last 30 days</h2>
+    <p class="tiny">Daily average across logged sessions. 4 = fully relaxed, 0 = over threshold. Up and to the right = a calmer Afi.</p>
+    <div class="chartwrap" id="chart-calm"></div>
+  </div>
+
+  <div class="card">
+    <h2>Training sessions per week</h2>
+    <p class="tiny">Last 8 weeks. Aim for 5+ short sessions a week — consistency beats length.</p>
+    <div class="chartwrap" id="chart-weeks"></div>
+  </div>
+
+  <div class="card">
+    <h2>Incidents per week</h2>
+    <p class="tiny">Real-world guarding moments you logged. This trending down is the actual goal.</p>
+    <div class="chartwrap" id="chart-incidents"></div>
+  </div>
+
+  <div class="card">
+    <h2>Skill ladders</h2>
+    <p class="tiny">Each drill has 5 levels. Score 3 sessions in a row at 😌/🙂 (rating 0–1) to unlock the next level.</p>
+    <div id="prog-ladders"></div>
+  </div>
+</section>
+
+<!-- ==================== GUIDE ==================== -->
+<section class="view" id="view-guide">
+  <div class="card">
+    <h2>Why Afi guards</h2>
+    <p class="muted">Resource guarding isn't dominance and it isn't "bad behavior" — it's <strong>anxiety about losing something valuable</strong>. When Afi hovers over his ball, freezes at his bowl, or explodes at the sound of the downstairs dog, the driving emotion is fear of loss. That's why this program never takes things from him and never punishes the warning signs. Instead it changes the math: <em>another dog appearing near my stuff = great things happen to me.</em></p>
+    <h3>The three methods this program uses</h3>
+    <ul class="steps muted">
+      <li><strong>Counter-conditioning &amp; desensitization (CC/DS)</strong> — pair the trigger (a dog appearing, someone approaching the bowl) at a low intensity with high-value food until his emotional response flips from "threat" to "jackpot predictor". Intensity only rises as fast as his body stays loose.</li>
+      <li><strong>Trade-up game</strong> — "drop" is never a loss. He gives up the ball, gets something as good or better, and usually gets the ball straight back. Over hundreds of reps, letting go stops being scary.</li>
+      <li><strong>Engage–disengage ("Look at That")</strong> — he learns that <em>calmly looking at a dog and then looking back at you</em> is a rewardable skill. This replaces the stare→stiffen→explode chain with look→check in→treat.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Reading Afi's body</h2>
+    <ul class="steps muted">
+      <li><strong>Green (keep going):</strong> loose wiggly body, soft mouth, takes treats gently, can look away from the trigger.</li>
+      <li><strong>Yellow (add distance NOW):</strong> freezing, hovering over the item, hard stare, closed mouth, slow-motion movement, grabbing treats hard or refusing them.</li>
+      <li><strong>Red (session over, leave calmly):</strong> growl escalating, snap, lunge. Don't scold — just create distance and make the next session easier.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Management (until training catches up)</h2>
+    <ul class="steps muted">
+      <li>At the park: bring <strong>two identical balls</strong>; put the ball away when other dogs approach; skip fetch on crowded days.</li>
+      <li>Water: give Afi his own bowl away from other dogs; the walker should pick the bowl up between dogs, and never let strange dogs approach while he drinks.</li>
+      <li>Tell the walker: no shared resources with other dogs yet, keep 10m+ from other dogs at rest stops, and reward calm looking at dogs.</li>
+      <li>At home: when the downstairs dog is active, preempt with a scatter-feed or stuffed Kong on his mat before he winds up.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>When to bring in a professional</h2>
+    <p class="muted">This program is safe DIY groundwork. Bring in a certified force-free professional (look for CPDT-KA, KPA-CTP, IAABC, or a veterinary behaviorist) if: a bite breaks skin, incidents get worse over 3–4 weeks despite training, or you want a spotter for the dog-near-resource levels. Guarding <em>against dogs</em> is harder to fix alone than guarding against humans because you can't control the other dog's behavior.</p>
+  </div>
+
+  <div class="card">
+    <h2>Sources</h2>
+    <ul class="steps tiny">
+      <li><a href="https://www.zoomroom.com/tips/resource-guarding" target="_blank" rel="noopener">Zoom Room — Resource Guarding in Dogs: Why It Happens and How to Help</a></li>
+      <li><a href="https://www.noblebeastdogtraining.com/resource-guarding-all-you-need-to-know" target="_blank" rel="noopener">Noble Beast — Resource Guarding: All You Need to Know</a></li>
+      <li><a href="https://www.oaklanddogtrainer.com/post/resource-guarding-mistakes" target="_blank" rel="noopener">Oakland Dog Trainer — 5 Resource-Guarding Mistakes to Stop Making</a></li>
+      <li><a href="https://www.alansk9academy.com/blogs/how-to-help-your-dog-correct-resource-guarding-a-step-by-step-guide" target="_blank" rel="noopener">Alan's K9 Academy — Correcting Resource Guarding Step by Step</a></li>
+      <li>Jean Donaldson, <em>Mine! A Practical Guide to Resource Guarding in Dogs</em> — the standard reference for guarding protocols.</li>
+      <li>Leslie McDevitt, <em>Control Unleashed</em> — origin of the engage–disengage / "Look at That" pattern game.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<nav class="tabs" id="tabs">
+  <button data-view="today" class="active"><span class="ico">📅</span>Today</button>
+  <button data-view="drills"><span class="ico">🎾</span>Drills</button>
+  <button data-view="practice"><span class="ico">🏋️</span>Practice</button>
+  <button data-view="log"><span class="ico">📓</span>Log</button>
+  <button data-view="progress"><span class="ico">📈</span>Progress</button>
+  <button data-view="guide"><span class="ico">📖</span>Guide</button>
+</nav>
+
+<script>
+"use strict";
+
+/* ==================== PROGRAM DATA ==================== */
+
+const RATINGS = [
+  { v: 0, em: "😌", name: "Relaxed",  sub: "Loose body, took treats gently, easy check-ins", color: "var(--good)" },
+  { v: 1, em: "🙂", name: "Noticed",  sub: "Looked at the trigger, came back to you quickly", color: "var(--series-1)" },
+  { v: 2, em: "😐", name: "Stiff",    sub: "Froze, hovered, hard stare, slow to respond", color: "var(--warning)" },
+  { v: 3, em: "😠", name: "Barked / lunged", sub: "Growled over the item or barked/lunged at the dog", color: "var(--serious)" },
+  { v: 4, em: "🚨", name: "Snapped",  sub: "Snap or went after the dog — end, add distance, make it easier", color: "var(--critical)" },
+];
+
+const INCIDENT_SEV = [
+  { v: 1, em: "👀", name: "Mild",   sub: "Stiffened / fixated, recovered fast", color: "var(--warning)" },
+  { v: 2, em: "😠", name: "Moderate", sub: "Growled, barked or lunged", color: "var(--serious)" },
+  { v: 3, em: "🚨", name: "Serious", sub: "Snapped or made contact", color: "var(--critical)" },
+];
+
+const LOCATIONS = ["Home", "Neighborhood", "Park", "Beach"];
+
+const DRILLS = [
+  {
+    id: "trade", emoji: "🎾", name: "Trade-Up Game",
+    tagline: "Ball sharing without the fight",
+    goal: "Afi learns that giving up his ball never means losing it — so another dog near his ball stops being an emergency.",
+    levels: [
+      { name: "Drop at home", where: "Home", minutes: 5,
+        steps: [
+          "Get two identical balls. Play with ball #1 in a boring room, no other dogs or people around.",
+          "While he holds ball #1, present ball #2 and make it exciting (wiggle, bounce once).",
+          "The instant he spits out #1, say “Drop!” cheerfully, then throw #2.",
+          "While he chases #2, calmly pick up #1. Repeat 8–10 times.",
+          "Every 3rd rep, trade for a high-value treat instead, then GIVE THE BALL BACK."],
+        pass: "He spits the ball out within 2 seconds of hearing “Drop”, tail loose, 8/10 reps." },
+      { name: "Drop for the good stuff", where: "Home", minutes: 5,
+        steps: [
+          "Use his favorite ball (the one he guards hardest) — still at home, still no dogs.",
+          "Cue “Drop” BEFORE showing the trade. Pay with chicken/cheese from behind your back.",
+          "Return the ball after almost every trade — the ball coming back is the real jackpot.",
+          "Add mild movement: walk past him while he holds the ball and drop a treat as you pass, keep walking.",
+          "If he hovers, freezes or turns away with the ball: you're too close/too valuable — make it easier."],
+        pass: "You can walk past him holding his favorite ball and his body stays loose, 3 sessions in a row." },
+      { name: "Drop at the park (empty)", where: "Park / Beach", minutes: 8,
+        steps: [
+          "Quiet corner of the park or beach, off-hours, NO dogs in sight. Long line if recall isn't solid.",
+          "Two-ball fetch: throw #1, cue “Drop” on return, throw #2. Keep it fast and fun.",
+          "Every few reps do a treat trade and give the ball straight back.",
+          "End after 8 minutes MAX, while he still wants more.",
+          "If a dog shows up: put the balls away, do engage–disengage instead or leave. That's a win, not a failure."],
+        pass: "Snappy drops outdoors with zero hovering, 3 sessions in a row." },
+      { name: "Drop with dogs far away", where: "Park / Beach", minutes: 8,
+        steps: [
+          "Pick a spot where dogs are visible but FAR (30m+ — far enough that Afi can still eat and play).",
+          "Same two-ball game. The moment he glances at a distant dog, mark “Yes!” and treat — dog + ball together = extra pay.",
+          "If he stiffens over the ball when a dog appears: pick up both balls, add 10–15m of distance, restart.",
+          "Two or three short sets, big break between. Quit early on a great rep."],
+        pass: "Dogs visible at distance, drops stay fast and body stays loose, 3 sessions in a row." },
+      { name: "Sharing the space", where: "Park / Beach", minutes: 10,
+        steps: [
+          "Only with a calm dog Afi already knows, both handlers briefed, both dogs able to leave.",
+          "Dogs 10–15m apart, each playing their OWN fetch with their own person. Close the gap over sessions, not minutes.",
+          "Feed Afi every time the other dog moves or gets a throw: other dog active = chicken rains.",
+          "Any freeze or hard stare: more distance, easier reps. Never let the dogs contest one ball.",
+          "Graduation (weeks away): balls put away, dogs sniff/walk together, then fetch resumes apart."],
+        pass: "Parallel fetch ~10m from a known dog with loose body, several sessions — that IS sharing." },
+    ],
+  },
+  {
+    id: "bowl", emoji: "💧", name: "Water-Bowl Value-Add",
+    tagline: "Approaches to his bowl predict bonuses",
+    goal: "Anything approaching Afi's water — person or dog — predicts extra good stuff, so there's nothing to defend.",
+    levels: [
+      { name: "Passing pays", where: "Home", minutes: 3,
+        steps: [
+          "While Afi is at or near his bowl, walk past at a distance where he stays totally relaxed.",
+          "As you pass, toss a treat so it lands NEAR the bowl. Keep walking — don't stop, don't reach.",
+          "Repeat 5–6 passes, several times a day (water, and mealtimes too if he ever hovers over food).",
+          "Over days, shrink the passing distance one step at a time. Any freeze = go back two steps."],
+        pass: "He looks UP happily when he hears you coming toward his bowl — the whip-around stare is gone." },
+      { name: "Reach means bonus", where: "Home", minutes: 3,
+        steps: [
+          "Approach the bowl, drop a spectacular treat IN or beside it, walk away. That's the whole rep.",
+          "Later: touch the bowl, treat, hands off. Then: lift it, add a treat topper, put it back down.",
+          "Never take the bowl away and end the rep — taking always comes with instant better-than-what-he-had payment.",
+          "Have other household members repeat L1–L2 so it generalizes past you."],
+        pass: "You can pick up his bowl mid-drink and his tail keeps a loose wag, 3 sessions in a row." },
+      { name: "Bowl on the road", where: "Neighborhood / Park", minutes: 5,
+        steps: [
+          "Bring his portable bowl on walks. Set it down in calm spots, let him drink, walk past and treat-toss like L1.",
+          "New places re-trigger guarding — expect to repeat easy reps in each new location.",
+          "The walker should run THIS level on their walks: bowl down, treat past, bowl up between dogs. No strange dogs near the bowl, ever, yet."],
+        pass: "Relaxed drinking in 3+ outdoor spots while people pass, 3 sessions in a row." },
+      { name: "Dog on the horizon", where: "Park / Beach", minutes: 6,
+        steps: [
+          "Set the bowl down where dogs are visible but far (30m+, under threshold).",
+          "Dog appears while he drinks → scatter 4–5 treats by the bowl. Dog leaves → treats stop. Dogs = bonus tap.",
+          "If he stops drinking to stare: pick the bowl up cheerfully, add distance, try again farther.",
+          "Keep the walker's rule: this is a set-up with distance YOU control, never a random dog wandering in."],
+        pass: "He keeps drinking, or glances and goes back to drinking, with dogs in view, 3 sessions in a row." },
+      { name: "Known dog shares the water stop", where: "Park", minutes: 8,
+        steps: [
+          "Calm, known dog, both leashed, two handlers, TWO bowls set 8–10m apart.",
+          "Each dog drinks at their own bowl; both get treats while the other is at their bowl.",
+          "Over sessions, bring the bowls closer. Any hover/freeze from Afi: reset wider.",
+          "True endgame — the other dog drinks from HIS bowl while Afi eats chicken with you at a few meters — only after weeks of clean reps, ideally with a trainer present."],
+        pass: "Both dogs drinking 5m apart, Afi loose and able to disengage — that's shared water." },
+    ],
+  },
+  {
+    id: "led", emoji: "👀", name: "Engage–Disengage",
+    tagline: "See a dog → check in with you",
+    goal: "Seeing (or smelling) another dog becomes a cue to look back at you, replacing the stare–stiffen–explode chain.",
+    levels: [
+      { name: "Window watching", where: "Home", minutes: 4,
+        steps: [
+          "Post up at a window/balcony where dogs sometimes pass, Afi on leash or settled with you.",
+          "The INSTANT he notices a dog, mark “Yes!” and feed at your knee. Dog gone = food stops.",
+          "If he can't take the treat, you're too close — more distance or a quieter window.",
+          "After ~10 good reps, wait a beat before marking: you're waiting for HIM to look back on his own. Jackpot that."],
+        pass: "He sees a dog and immediately swings his head to you, unprompted, most reps." },
+      { name: "Across the street", where: "Neighborhood", minutes: 8,
+        steps: [
+          "Walk at hours with a few dogs around. Cross the street or arc wide — you pick the distance, aim for 'notices but can eat'.",
+          "Dog appears → mark the look → feed. Repeat every look while the dog is in sight.",
+          "Add the auto-check-in: pause, let him look, wait for the head turn back to you, pay big.",
+          "Getting stuck staring? U-turn and jog away a few steps — moving away is always allowed and never a punishment.",
+          "Sniff spots where dogs marked: let him sniff (that's data-gathering, it's good), then cue “Let's go” and treat for coming along."],
+        pass: "Dogs across the street get a look-and-check-in, no barking or lunging, 3 walks in a row." },
+      { name: "Park perimeter", where: "Park", minutes: 10,
+        steps: [
+          "Walk the OUTSIDE edge of the park where dogs are 20m+ away. No ball with you at this level.",
+          "Engage–disengage every dog he notices. Feed generously — this is the hardest environment yet.",
+          "Walk arcs and curves, never straight at a dog. Keep the leash loose; tension travels down it.",
+          "5–10 minutes, then leave. Three great minutes beat twenty tense ones."],
+        pass: "A full perimeter lap with check-ins and zero explosions, 3 visits in a row." },
+      { name: "Closing the gap", where: "Park / Neighborhood", minutes: 10,
+        steps: [
+          "Gradually work closer to dogs across sessions: 20m → 15m → 10m, one step down per GOOD session.",
+          "Add movement: engage–disengage while dogs run and play nearby (running dogs are much harder).",
+          "Reintroduce the ball at your side (not thrown) at 20m+ — carrying his ball near dogs, staying calm, gets rapid-fire treats.",
+          "One bad rep = distance was wrong, not Afi. Step back up and end well."],
+        pass: "Calm at ~10m from active dogs, with the ball put away, 3 sessions in a row." },
+      { name: "Real park life", where: "Park / Beach", minutes: 12,
+        steps: [
+          "Fetch in sight of dogs at a distance where drops stay snappy (combine with Trade-Up L4–5).",
+          "Practice water stops with dogs in view (Bowl L4).",
+          "Let him greet only calm, known dogs, 3 seconds max, then happily call away and pay.",
+          "Keep 1-in-3 park trips as pure sniffy decompression walks — no drills, no fetch. Lower baseline arousal makes everything easier."],
+        pass: "Normal park trips where dogs appearing is a non-event. Maintain forever with occasional paid check-ins." },
+    ],
+  },
+  {
+    id: "calm", emoji: "🧘", name: "Calm at Home",
+    tagline: "Mat, sounds & the downstairs dog",
+    goal: "Dog sounds and the downstairs dog's comings and goings send Afi to his mat expecting good things — instead of going wild.",
+    levels: [
+      { name: "Magic mat", where: "Home", minutes: 5,
+        steps: [
+          "Pick a mat/bed near where he hears the downstairs dog. Toss a treat on it. He steps on = more treats.",
+          "Shape lying down on it: feed BETWEEN the paws, slowly stretch the seconds between treats.",
+          "Add a release word (“Free!”) so being on the mat has a clear start and end.",
+          "Build to 2 minutes of chill on the mat while you move around the room."],
+        pass: "He runs to the mat when you point at it and holds a relaxed down for 2 minutes." },
+      { name: "Sounds get boring", where: "Home", minutes: 5,
+        steps: [
+          "List his trigger sounds: downstairs door, leash jingle, the dog's tags/barking, hallway footsteps.",
+          "Play recordings (or use real ones at a distance) at a volume where he flicks an ear but stays relaxed.",
+          "Sound → treats rain on the mat. Silence → nothing. 30–60 second sets.",
+          "Raise volume over days. If he leaves the mat to bark, volume dropped too fast — go quieter.",
+          "Can't find recordings? Ask the downstairs neighbor for a 10-minute setup: they leave/return on cue while you feed."],
+        pass: "Trigger sounds at real-life volume get an ear flick and a look at YOU, not an explosion, 3 sessions in a row." },
+      { name: "The real downstairs dog", where: "Home", minutes: 5,
+        steps: [
+          "Learn the downstairs dog's schedule; be ready at the mat BEFORE the usual departure times.",
+          "First sounds → scatter 5–6 treats on the mat (“find it”) so his nose works instead of his ears.",
+          "As sessions improve, wait for him to hear the sound and CHOOSE the mat, then pay big.",
+          "Off-schedule surprises will happen — interrupt cheerfully, cue mat, pay. Never scold the barking; it's fear, not defiance."],
+        pass: "The downstairs dog leaves and Afi trots to his mat (or just lifts his head), 5+ real events in a row." },
+      { name: "Calm at the window & door", where: "Home / Neighborhood", minutes: 5,
+        steps: [
+          "Dogs passing outside (seen from window or heard at the door) → same protocol: mat, scatter, pay the calm.",
+          "Manage between sessions: film/frost the lower window or block the view — rehearsing the barking undoes the training.",
+          "Doorway drills: open the door a crack, treat for four-on-the-floor calm, close. Build to standing at the open door calmly."],
+        pass: "A dog passing the house gets a look and a check-in, not a meltdown, most events for a week." },
+      { name: "Settle anywhere", where: "Park / Beach / Cafe", minutes: 8,
+        steps: [
+          "Take the mat to the porch, then a quiet bench, then the park edge, then a cafe.",
+          "Same game: on the mat, calm watching, occasional quiet treats between the paws.",
+          "Dogs pass at distance → engage–disengage from the mat, then back to settling.",
+          "This is his 'off switch' in public — the foundation every other drill stands on."],
+        pass: "10-minute relaxed settle in a public place with dogs at a distance, 3 outings in a row." },
+    ],
+  },
+];
+
+/* Weekly rotation: dog-reactivity (led) gets the most reps */
+const ROTATION = ["led", "trade", "bowl", "led", "trade", "calm", "led"]; // Sun..Sat
+const SECONDARY = ["calm", "bowl", "calm", "bowl", "led", "bowl", "calm"];
+
+/* ==================== STATE ==================== */
+
+const STORE_KEY = "afi-training-v1";
+let state = load();
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s && typeof s === "object") {
+        return { sessions: [], incidents: [], levels: {}, todayChecks: {}, ...s };
+      }
+    }
+  } catch (e) { /* first run / blocked storage */ }
+  return { sessions: [], incidents: [], levels: {}, todayChecks: {} };
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* ignore */ }
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function dayKey(d) {
+  const dt = d ? new Date(d) : new Date();
+  return dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0");
+}
+function drillById(id) { return DRILLS.find(d => d.id === id); }
+function levelOf(id) { return Math.min(state.levels[id] || 1, 5); }
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+}
+
+/* ==================== TABS ==================== */
+
+const tabsEl = document.getElementById("tabs");
+tabsEl.addEventListener("click", e => {
+  const btn = e.target.closest("button[data-view]");
+  if (!btn) return;
+  showView(btn.dataset.view);
+});
+function showView(name) {
+  document.querySelectorAll("section.view").forEach(s => s.classList.toggle("active", s.id === "view-" + name));
+  tabsEl.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.view === name));
+  if (name === "progress") renderProgress();
+  if (name === "today") renderToday();
+  if (name === "log") renderHistory();
+  if (name === "drills") renderDrills();
+  window.scrollTo(0, 0);
+}
+
+/* ==================== TODAY ==================== */
+
+function streakDays() {
+  const days = new Set(state.sessions.map(s => dayKey(s.date)));
+  let streak = 0;
+  const d = new Date();
+  if (!days.has(dayKey(d))) d.setDate(d.getDate() - 1); // streak survives until today is missed for real
+  while (days.has(dayKey(d))) { streak++; d.setDate(d.getDate() - 1); }
+  return streak;
+}
+
+function renderToday() {
+  const now = new Date();
+  const dow = now.getDay();
+  const mainId = ROTATION[dow], secId = SECONDARY[dow];
+  const main = drillById(mainId), sec = drillById(secId);
+  const mainLvl = main.levels[levelOf(mainId) - 1];
+  const secLvl = sec.levels[levelOf(secId) - 1];
+
+  document.getElementById("today-title").textContent =
+    now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+  document.getElementById("today-streak").textContent = "🔥 " + streakDays() + "-day streak";
+  document.getElementById("today-sub").textContent =
+    "≈15 minutes total. Main drill: " + main.emoji + " " + main.name + " (Level " + levelOf(mainId) + " — " + mainLvl.where + ").";
+
+  const checks = state.todayChecks[dayKey()] || {};
+  const items = [
+    { k: "warmup", txt: "Warm-up (2 min) — name game + hand touches, easy treats, get him working with you", sub: "Anywhere" },
+    { k: "main", txt: main.emoji + " Main: " + main.name + " · L" + levelOf(mainId) + " “" + mainLvl.name + "” (" + mainLvl.minutes + " min)", sub: mainLvl.where },
+    { k: "second", txt: sec.emoji + " Bonus: " + sec.name + " · L" + levelOf(secId) + " “" + secLvl.name + "” (3 min, optional)", sub: secLvl.where },
+    { k: "cooldown", txt: "Cool-down (2 min) — treat scatter in grass or mat settle, let the nose finish the session", sub: "Anywhere" },
+  ];
+  const ul = document.getElementById("today-plan");
+  ul.innerHTML = "";
+  items.forEach(it => {
+    const li = document.createElement("li");
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.checked = !!checks[it.k];
+    cb.addEventListener("change", () => {
+      const t = state.todayChecks[dayKey()] || {};
+      t[it.k] = cb.checked;
+      state.todayChecks = { [dayKey()]: t }; // keep only today
+      save();
+    });
+    const div = document.createElement("div");
+    div.innerHTML = "<div>" + esc(it.txt) + "</div><div class='tiny'>" + esc(it.sub) + "</div>";
+    li.appendChild(cb); li.appendChild(div);
+    ul.appendChild(li);
+  });
+
+  document.getElementById("today-start").onclick = () => {
+    document.getElementById("p-drill").value = mainId;
+    updatePracticePicker();
+    showView("practice");
+  };
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+/* ==================== DRILLS ==================== */
+
+function pips(cur) {
+  let h = "<div class='lvlpips'>";
+  for (let i = 1; i <= 5; i++) h += "<span class='" + (i <= cur ? "on" : "") + "'></span>";
+  return h + "</div>";
+}
+
+function renderDrills() {
+  const wrap = document.getElementById("drill-list");
+  wrap.innerHTML = "";
+  DRILLS.forEach(d => {
+    const lvl = levelOf(d.id);
+    const L = d.levels[lvl - 1];
+    const card = document.createElement("div");
+    card.className = "card drill-card";
+    card.innerHTML =
+      "<h2>" + d.emoji + " " + esc(d.name) + " <span class='pill'>Level " + lvl + "/5</span></h2>" +
+      "<p class='muted'>" + esc(d.goal) + "</p>" + pips(lvl) +
+      "<h3>Now training — L" + lvl + ": " + esc(L.name) + " <span class='pill gray'>" + esc(L.where) + " · " + L.minutes + " min</span></h3>" +
+      "<ol class='steps muted'>" + L.steps.map(s => "<li>" + esc(s) + "</li>").join("") + "</ol>" +
+      "<p class='tiny'>✅ Level up when: " + esc(L.pass) + "</p>";
+    const btn = document.createElement("button");
+    btn.className = "primary big";
+    btn.textContent = "Practice this now";
+    btn.onclick = () => {
+      document.getElementById("p-drill").value = d.id;
+      updatePracticePicker();
+      showView("practice");
+    };
+    card.appendChild(btn);
+    if (lvl > 1) {
+      const back = document.createElement("button");
+      back.className = "big";
+      back.textContent = "↩ Drop back a level (it got too hard)";
+      back.onclick = () => { state.levels[d.id] = lvl - 1; save(); renderDrills(); };
+      card.appendChild(back);
+    }
+    wrap.appendChild(card);
+  });
+}
+
+/* ==================== PRACTICE ==================== */
+
+const pDrillSel = document.getElementById("p-drill");
+DRILLS.forEach(d => {
+  const o = document.createElement("option");
+  o.value = d.id; o.textContent = d.emoji + " " + d.name;
+  pDrillSel.appendChild(o);
+});
+pDrillSel.addEventListener("change", updatePracticePicker);
+
+function updatePracticePicker() {
+  const d = drillById(pDrillSel.value);
+  const lvl = levelOf(d.id);
+  const L = d.levels[lvl - 1];
+  document.getElementById("p-level-info").innerHTML =
+    pips(lvl) +
+    "<p class='muted'><strong>Level " + lvl + ": " + esc(L.name) + "</strong> · " + esc(L.where) + " · ~" + L.minutes + " min</p>" +
+    "<p class='tiny'>" + esc(d.tagline) + "</p>";
+}
+
+let session = null; // {drillId, level, startedAt}
+let timerInt = null, timerSec = 0, timerRunning = false;
+
+document.getElementById("p-begin").onclick = () => {
+  const d = drillById(pDrillSel.value);
+  const lvl = levelOf(d.id);
+  session = { drillId: d.id, level: lvl };
+  const L = d.levels[lvl - 1];
+  document.getElementById("ps-title").textContent = d.emoji + " " + d.name;
+  document.getElementById("ps-level").textContent = "L" + lvl + ": " + L.name;
+  document.getElementById("ps-goal").textContent = d.goal;
+  document.getElementById("ps-steps").innerHTML = L.steps.map(s => "<li>" + esc(s) + "</li>").join("");
+  document.getElementById("ps-passrule").textContent = "✅ Level up when: " + L.pass;
+  resetTimer();
+  swapPractice("practice-session");
+};
+
+function swapPractice(id) {
+  ["practice-picker", "practice-session", "practice-log", "practice-done"]
+    .forEach(x => document.getElementById(x).classList.toggle("hidden", x !== id));
+  window.scrollTo(0, 0);
+}
+
+function fmtTimer() {
+  const m = String(Math.floor(timerSec / 60)).padStart(2, "0");
+  const s = String(timerSec % 60).padStart(2, "0");
+  return m + ":" + s;
+}
+function resetTimer() {
+  clearInterval(timerInt); timerRunning = false; timerSec = 0;
+  document.getElementById("ps-timer").textContent = fmtTimer();
+  document.getElementById("ps-timer-toggle").textContent = "▶ Start timer";
+}
+document.getElementById("ps-timer-toggle").onclick = () => {
+  if (timerRunning) {
+    clearInterval(timerInt); timerRunning = false;
+    document.getElementById("ps-timer-toggle").textContent = "▶ Resume";
+  } else {
+    timerRunning = true;
+    document.getElementById("ps-timer-toggle").textContent = "⏸ Pause";
+    timerInt = setInterval(() => {
+      timerSec++;
+      document.getElementById("ps-timer").textContent = fmtTimer();
+    }, 1000);
+  }
+};
+document.getElementById("ps-timer-reset").onclick = resetTimer;
+document.getElementById("ps-cancel").onclick = () => { resetTimer(); session = null; swapPractice("practice-picker"); };
+
+/* --- log form --- */
+let plLoc = null, plRating = null;
+
+document.getElementById("ps-finish").onclick = () => {
+  clearInterval(timerInt); timerRunning = false;
+  const d = drillById(session.drillId);
+  const L = d.levels[session.level - 1];
+  document.getElementById("pl-what").textContent =
+    d.emoji + " " + d.name + " · L" + session.level + " “" + L.name + "” · " + Math.max(1, Math.round(timerSec / 60)) + " min";
+  buildLocButtons();
+  buildRatingButtons("pl-ratings", RATINGS, v => { plRating = v; });
+  plLoc = null; plRating = null;
+  document.getElementById("pl-distance").value = "";
+  document.getElementById("pl-notes").value = "";
+  swapPractice("practice-log");
+};
+
+function buildLocButtons() {
+  const wrap = document.getElementById("pl-locs");
+  wrap.innerHTML = "";
+  LOCATIONS.forEach(loc => {
+    const b = document.createElement("button");
+    b.textContent = loc;
+    b.onclick = () => {
+      plLoc = loc;
+      wrap.querySelectorAll("button").forEach(x => x.classList.toggle("sel", x === b));
+      wrap.querySelectorAll("button").forEach(x => x.style.borderColor = x === b ? "var(--accent)" : "");
+      wrap.querySelectorAll("button").forEach(x => x.style.background = x === b ? "var(--series-1-soft)" : "");
+    };
+    wrap.appendChild(b);
+  });
+}
+
+function buildRatingButtons(containerId, defs, onPick) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = "";
+  defs.forEach(r => {
+    const b = document.createElement("button");
+    b.innerHTML = "<span class='em'>" + r.em + "</span><span><span class='badge'><span class='dot' style='background:" + r.color + "'></span>" + esc(r.name) + "</span><span class='sub'>" + esc(r.sub) + "</span></span>";
+    b.onclick = () => {
+      onPick(r.v);
+      wrap.querySelectorAll("button").forEach(x => x.classList.toggle("sel", x === b));
+    };
+    wrap.appendChild(b);
+  });
+}
+
+document.getElementById("pl-save").onclick = () => {
+  if (plRating === null) { alert("Pick how Afi did — that rating is what drives the progress charts."); return; }
+  const entry = {
+    id: uid(), kind: "session", date: new Date().toISOString(),
+    drillId: session.drillId, level: session.level,
+    minutes: Math.max(1, Math.round(timerSec / 60)),
+    location: plLoc || "Home",
+    rating: plRating,
+    distance: document.getElementById("pl-distance").value,
+    notes: document.getElementById("pl-notes").value.trim(),
+  };
+  state.sessions.push(entry);
+
+  // level-up check: last 3 sessions of this drill at this level all rated 0-1
+  const recent = state.sessions
+    .filter(s => s.drillId === entry.drillId && s.level === entry.level)
+    .slice(-3);
+  const canLevelUp = recent.length === 3 && recent.every(s => s.rating <= 1) && entry.level < 5;
+  save();
+
+  const d = drillById(entry.drillId);
+  document.getElementById("pd-msg").textContent =
+    d.emoji + " " + d.name + " logged — " + RATINGS[entry.rating].em + " " + RATINGS[entry.rating].name +
+    ". Streak: " + streakDays() + " day" + (streakDays() === 1 ? "" : "s") + ".";
+  const lu = document.getElementById("pd-levelup");
+  lu.innerHTML = "";
+  if (canLevelUp) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.innerHTML = "🎉 <strong>Three calm sessions in a row at Level " + entry.level + "!</strong> Afi is ready for Level " + (entry.level + 1) + ": “" + esc(d.levels[entry.level].name) + "”.";
+    const b = document.createElement("button");
+    b.className = "primary big";
+    b.textContent = "⬆ Level up to L" + (entry.level + 1);
+    b.onclick = () => { state.levels[d.id] = entry.level + 1; save(); lu.innerHTML = "<p class='muted'>⬆ Leveled up. New level loads next time you practice this drill.</p>"; };
+    lu.appendChild(p); lu.appendChild(b);
+  } else if (entry.rating >= 3) {
+    lu.innerHTML = "<p class='muted'>Rough one — that's data, not failure. Next session: add distance, shorten the set, or use the “drop back a level” button on the Drills tab.</p>";
+  }
+  session = null;
+  swapPractice("practice-done");
+};
+document.getElementById("pd-again").onclick = () => { swapPractice("practice-picker"); updatePracticePicker(); };
+
+/* ==================== INCIDENTS & HISTORY ==================== */
+
+let iSev = null;
+buildRatingButtons("i-ratings", INCIDENT_SEV, v => { iSev = v; });
+
+const INCIDENT_NAMES = {
+  ball: "Guarded ball/toy", water: "Guarded water bowl", food: "Guarded food/chew",
+  stare: "Fixated at a dog", bark: "Barked/lunged at a dog", sound: "Wild at dog sounds", fight: "Went after a dog",
+};
+
+document.getElementById("i-save").onclick = () => {
+  if (iSev === null) { alert("Pick a severity."); return; }
+  state.incidents.push({
+    id: uid(), kind: "incident", date: new Date().toISOString(),
+    type: document.getElementById("i-type").value,
+    severity: iSev,
+    where: document.getElementById("i-where").value,
+    notes: document.getElementById("i-notes").value.trim(),
+  });
+  save();
+  iSev = null;
+  document.getElementById("i-notes").value = "";
+  document.querySelectorAll("#i-ratings button").forEach(b => b.classList.remove("sel"));
+  renderHistory();
+};
+
+function renderHistory() {
+  const wrap = document.getElementById("history");
+  const all = [
+    ...state.sessions.map(s => ({ ...s, kind: "session" })),
+    ...state.incidents.map(i => ({ ...i, kind: "incident" })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  if (!all.length) {
+    wrap.innerHTML = "<p class='muted'>Nothing logged yet. Finish a practice session or log an incident and it shows up here.</p>";
+    return;
+  }
+  wrap.innerHTML = "";
+  all.slice(0, 100).forEach(e => {
+    const div = document.createElement("div");
+    div.className = "logitem";
+    let head, sub;
+    if (e.kind === "session") {
+      const d = drillById(e.drillId);
+      const r = RATINGS[e.rating];
+      head = d.emoji + " " + d.name + " · L" + e.level + " — <span class='badge'><span class='dot' style='background:" + r.color + "'></span>" + r.em + " " + r.name + "</span>";
+      sub = fmtDate(e.date) + " · " + esc(e.location) + " · " + e.minutes + " min" +
+        (e.distance ? " · dogs: " + esc(e.distance) : "") + (e.notes ? "<br>“" + esc(e.notes) + "”" : "");
+    } else {
+      const sv = INCIDENT_SEV.find(x => x.v === e.severity) || INCIDENT_SEV[0];
+      head = "⚡ Incident: " + esc(INCIDENT_NAMES[e.type] || e.type) + " — <span class='badge'><span class='dot' style='background:" + sv.color + "'></span>" + sv.em + " " + sv.name + "</span>";
+      sub = fmtDate(e.date) + " · " + esc(e.where) + (e.notes ? "<br>“" + esc(e.notes) + "”" : "");
+    }
+    div.innerHTML = "<div class='row'><div>" + head + "</div><button class='del' data-id='" + e.id + "' data-kind='" + e.kind + "'>✕</button></div><div class='tiny'>" + sub + "</div>";
+    wrap.appendChild(div);
+  });
+  wrap.querySelectorAll(".del").forEach(b => {
+    b.onclick = () => {
+      if (!confirm("Delete this entry?")) return;
+      if (b.dataset.kind === "session") state.sessions = state.sessions.filter(s => s.id !== b.dataset.id);
+      else state.incidents = state.incidents.filter(i => i.id !== b.dataset.id);
+      save(); renderHistory();
+    };
+  });
+}
+
+/* export / import */
+document.getElementById("btn-export").onclick = () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "afi-training-" + dayKey() + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+document.getElementById("btn-import").onclick = () => document.getElementById("import-file").click();
+document.getElementById("import-file").addEventListener("change", e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const s = JSON.parse(r.result);
+      if (!s || !Array.isArray(s.sessions)) throw new Error("bad file");
+      if (!confirm("Replace current data with " + s.sessions.length + " sessions and " + (s.incidents || []).length + " incidents?")) return;
+      state = { sessions: [], incidents: [], levels: {}, todayChecks: {}, ...s };
+      save(); renderHistory(); renderToday();
+      alert("Imported.");
+    } catch (err) { alert("Couldn't read that file — it doesn't look like an Afi export."); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+/* ==================== PROGRESS ==================== */
+
+function renderProgress() {
+  const tiles = document.getElementById("prog-tiles");
+  const now = new Date();
+  const weekAgo = new Date(now); weekAgo.setDate(now.getDate() - 7);
+  const recent = state.sessions.filter(s => new Date(s.date) >= weekAgo);
+  const avgCalm = recent.length
+    ? (recent.reduce((a, s) => a + (4 - s.rating), 0) / recent.length).toFixed(1)
+    : "–";
+  const lastInc = state.incidents.length
+    ? Math.floor((now - new Date(state.incidents[state.incidents.length - 1].date)) / 86400000)
+    : null;
+  tiles.innerHTML = [
+    { v: streakDays(), l: "day streak 🔥" },
+    { v: recent.length, l: "sessions this week" },
+    { v: avgCalm, l: "avg calm score (7d, of 4)" },
+    { v: lastInc === null ? "–" : lastInc, l: "days since last incident" },
+  ].map(t => "<div class='tile'><div class='val'>" + t.v + "</div><div class='lbl'>" + t.l + "</div></div>").join("");
+
+  renderCalmChart();
+  renderWeekChart("chart-weeks", state.sessions, "sessions", "var(--series-1)");
+  renderWeekChart("chart-incidents", state.incidents, "incidents", "var(--serious)");
+  renderLadders();
+}
+
+/* --- shared chart helpers --- */
+const CHART = { w: 660, h: 220, pad: { t: 14, r: 12, b: 26, l: 30 } };
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+function baseSvg() {
+  return svgEl("svg", { viewBox: "0 0 " + CHART.w + " " + CHART.h, role: "img" });
+}
+function attachTooltip(wrap) {
+  let tip = wrap.querySelector(".tooltip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.className = "tooltip";
+    wrap.appendChild(tip);
+  }
+  return tip;
+}
+function placeTip(tip, wrap, clientX, clientY, html) {
+  const r = wrap.getBoundingClientRect();
+  tip.innerHTML = html;
+  tip.style.display = "block";
+  let x = clientX - r.left + 12, y = clientY - r.top - 10;
+  tip.style.left = "0"; tip.style.top = "0";
+  const tw = tip.offsetWidth;
+  if (x + tw > r.width) x = clientX - r.left - tw - 12;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+
+function renderCalmChart() {
+  const wrap = document.getElementById("chart-calm");
+  wrap.querySelectorAll("svg, p.empty, details").forEach(n => n.remove());
+
+  // daily averages, last 30 days
+  const byDay = {};
+  state.sessions.forEach(s => {
+    const k = dayKey(s.date);
+    (byDay[k] = byDay[k] || []).push(4 - s.rating);
+  });
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = dayKey(d);
+    days.push({ k, label: (d.getMonth() + 1) + "/" + d.getDate(), avg: byDay[k] ? byDay[k].reduce((a, b) => a + b, 0) / byDay[k].length : null, n: (byDay[k] || []).length });
+  }
+  const pts = days.filter(d => d.avg !== null);
+  if (pts.length < 2) {
+    const p = document.createElement("p");
+    p.className = "muted empty";
+    p.textContent = "Log sessions on two or more days and the trend line appears here.";
+    wrap.appendChild(p);
+    return;
+  }
+
+  const { w, h, pad } = CHART;
+  const iw = w - pad.l - pad.r, ih = h - pad.t - pad.b;
+  const x = i => pad.l + (i / 29) * iw;
+  const y = v => pad.t + (1 - v / 4) * ih;
+  const svg = baseSvg();
+
+  for (let v = 0; v <= 4; v++) {
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: w - pad.r, y1: y(v), y2: y(v), stroke: v === 0 ? "var(--baseline)" : "var(--grid)", "stroke-width": 1 }));
+    const t = svgEl("text", { x: pad.l - 7, y: y(v) + 4, "text-anchor": "end", "font-size": 11, fill: "var(--text-muted)", style: "font-variant-numeric:tabular-nums" });
+    t.textContent = v; svg.appendChild(t);
+  }
+  [0, 10, 20, 29].forEach(i => {
+    const t = svgEl("text", { x: x(i), y: h - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--text-muted)" });
+    t.textContent = days[i].label; svg.appendChild(t);
+  });
+
+  let dPath = "";
+  days.forEach((d, i) => {
+    if (d.avg === null) return;
+    dPath += (dPath ? " L" : "M") + x(i).toFixed(1) + " " + y(d.avg).toFixed(1);
+  });
+  svg.appendChild(svgEl("path", { d: dPath, fill: "none", stroke: "var(--series-1)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  days.forEach((d, i) => {
+    if (d.avg === null) return;
+    svg.appendChild(svgEl("circle", { cx: x(i), cy: y(d.avg), r: 4, fill: "var(--series-1)", stroke: "var(--surface-1)", "stroke-width": 2 }));
+  });
+
+  // hover crosshair + tooltip
+  const tip = attachTooltip(wrap);
+  const cross = svgEl("line", { y1: pad.t, y2: h - pad.b, stroke: "var(--baseline)", "stroke-width": 1, "stroke-dasharray": "3 3", visibility: "hidden" });
+  svg.appendChild(cross);
+  const hot = svgEl("circle", { r: 6, fill: "var(--series-1)", stroke: "var(--surface-1)", "stroke-width": 2, visibility: "hidden" });
+  svg.appendChild(hot);
+  svg.addEventListener("pointermove", ev => {
+    const rect = svg.getBoundingClientRect();
+    const px = (ev.clientX - rect.left) / rect.width * w;
+    let best = null, bestDist = 1e9;
+    days.forEach((d, i) => {
+      if (d.avg === null) return;
+      const dist = Math.abs(x(i) - px);
+      if (dist < bestDist) { bestDist = dist; best = { d, i }; }
+    });
+    if (!best) return;
+    cross.setAttribute("x1", x(best.i)); cross.setAttribute("x2", x(best.i));
+    cross.setAttribute("visibility", "visible");
+    hot.setAttribute("cx", x(best.i)); hot.setAttribute("cy", y(best.d.avg));
+    hot.setAttribute("visibility", "visible");
+    placeTip(tip, wrap, ev.clientX, ev.clientY,
+      "<strong>" + best.d.label + "</strong> · calm " + best.d.avg.toFixed(1) + " / 4 · " + best.d.n + " session" + (best.d.n === 1 ? "" : "s"));
+  });
+  svg.addEventListener("pointerleave", () => {
+    cross.setAttribute("visibility", "hidden");
+    hot.setAttribute("visibility", "hidden");
+    tip.style.display = "none";
+  });
+
+  wrap.appendChild(svg);
+
+  // accessible table view
+  const det = document.createElement("details");
+  det.className = "datatable";
+  det.innerHTML = "<summary>View as table</summary><table><tr><th>Day</th><th>Sessions</th><th>Avg calm (0–4)</th></tr>" +
+    pts.map(d => "<tr><td>" + d.label + "</td><td>" + d.n + "</td><td>" + d.avg.toFixed(1) + "</td></tr>").join("") + "</table>";
+  wrap.appendChild(det);
+}
+
+function weekStart(d) {
+  const dt = new Date(d);
+  dt.setHours(0, 0, 0, 0);
+  dt.setDate(dt.getDate() - dt.getDay());
+  return dt;
+}
+
+function renderWeekChart(containerId, items, noun, color) {
+  const wrap = document.getElementById(containerId);
+  wrap.querySelectorAll("svg, p.empty, details").forEach(n => n.remove());
+
+  const weeks = [];
+  const thisWeek = weekStart(new Date());
+  for (let i = 7; i >= 0; i--) {
+    const ws = new Date(thisWeek); ws.setDate(ws.getDate() - i * 7);
+    const we = new Date(ws); we.setDate(we.getDate() + 7);
+    const count = items.filter(s => { const d = new Date(s.date); return d >= ws && d < we; }).length;
+    weeks.push({ label: (ws.getMonth() + 1) + "/" + ws.getDate(), count });
+  }
+  const max = Math.max(4, ...weeks.map(x => x.count));
+  const { w, h, pad } = CHART;
+  const iw = w - pad.l - pad.r, ih = h - pad.t - pad.b;
+  const bw = Math.min(44, (iw / weeks.length) * 0.6);
+  const svg = baseSvg();
+
+  const gridSteps = Math.min(max, 4);
+  for (let g = 0; g <= gridSteps; g++) {
+    const v = Math.round((max / gridSteps) * g);
+    const yy = pad.t + (1 - v / max) * ih;
+    svg.appendChild(svgEl("line", { x1: pad.l, x2: w - pad.r, y1: yy, y2: yy, stroke: g === 0 ? "var(--baseline)" : "var(--grid)", "stroke-width": 1 }));
+    const t = svgEl("text", { x: pad.l - 7, y: yy + 4, "text-anchor": "end", "font-size": 11, fill: "var(--text-muted)", style: "font-variant-numeric:tabular-nums" });
+    t.textContent = v; svg.appendChild(t);
+  }
+
+  const tip = attachTooltip(wrap);
+  weeks.forEach((wk, i) => {
+    const cx = pad.l + ((i + 0.5) / weeks.length) * iw;
+    const bh = (wk.count / max) * ih;
+    const yy = pad.t + ih - bh;
+    const rect = svgEl("path", {
+      d: roundedTopBar(cx - bw / 2, yy, bw, bh, Math.min(4, bh)),
+      fill: color,
+    });
+    if (wk.count === 0) rect.setAttribute("fill", "none");
+    svg.appendChild(rect);
+    const hit = svgEl("rect", { x: cx - bw, y: pad.t, width: bw * 2, height: ih, fill: "transparent" });
+    hit.addEventListener("pointermove", ev =>
+      placeTip(tip, wrap, ev.clientX, ev.clientY, "<strong>wk of " + wk.label + "</strong> · " + wk.count + " " + noun));
+    hit.addEventListener("pointerleave", () => tip.style.display = "none");
+    svg.appendChild(hit);
+    const t = svgEl("text", { x: cx, y: h - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--text-muted)" });
+    t.textContent = wk.label; svg.appendChild(t);
+    if (wk.count > 0) {
+      const vl = svgEl("text", { x: cx, y: yy - 5, "text-anchor": "middle", "font-size": 11, fill: "var(--text-secondary)", style: "font-variant-numeric:tabular-nums" });
+      vl.textContent = wk.count; svg.appendChild(vl);
+    }
+  });
+
+  wrap.appendChild(svg);
+  const det = document.createElement("details");
+  det.className = "datatable";
+  det.innerHTML = "<summary>View as table</summary><table><tr><th>Week of</th><th>" + noun[0].toUpperCase() + noun.slice(1) + "</th></tr>" +
+    weeks.map(wk => "<tr><td>" + wk.label + "</td><td>" + wk.count + "</td></tr>").join("") + "</table>";
+  wrap.appendChild(det);
+}
+
+function roundedTopBar(x, y, w, h, r) {
+  if (h <= 0) return "M0 0";
+  r = Math.min(r, w / 2, h);
+  return "M" + x + " " + (y + h) +
+    " L" + x + " " + (y + r) +
+    " Q" + x + " " + y + " " + (x + r) + " " + y +
+    " L" + (x + w - r) + " " + y +
+    " Q" + (x + w) + " " + y + " " + (x + w) + " " + (y + r) +
+    " L" + (x + w) + " " + (y + h) + " Z";
+}
+
+function renderLadders() {
+  const wrap = document.getElementById("prog-ladders");
+  wrap.innerHTML = "";
+  DRILLS.forEach(d => {
+    const lvl = levelOf(d.id);
+    const atLevel = state.sessions.filter(s => s.drillId === d.id && s.level === lvl).slice(-3);
+    const calmRun = (() => {
+      let n = 0;
+      for (let i = atLevel.length - 1; i >= 0; i--) {
+        if (atLevel[i].rating <= 1) n++; else break;
+      }
+      return n;
+    })();
+    const total = state.sessions.filter(s => s.drillId === d.id).length;
+    const div = document.createElement("div");
+    div.style.marginBottom = "14px";
+    div.innerHTML =
+      "<div class='row spread'><strong>" + d.emoji + " " + esc(d.name) + "</strong><span class='pill'>L" + lvl + "/5</span></div>" +
+      pips(lvl) +
+      "<p class='tiny'>" + total + " sessions total · " +
+      (lvl >= 5 ? "Top level — maintain with occasional refreshers."
+        : calmRun + "/3 calm sessions toward Level " + (lvl + 1) + " (“" + esc(d.levels[lvl].name) + "”)") + "</p>";
+    wrap.appendChild(div);
+  });
+}
+
+/* ==================== INIT ==================== */
+updatePracticePicker();
+renderToday();
+renderDrills();
+renderHistory();
+</script>
+</body>
+</html>
